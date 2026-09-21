@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+
+  app:
+    build: .
+    container_name: desafio-votacao-api
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+      # Comunicação container -> container
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/votacaodb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+  db:
+    image: postgres:15-alpine
+    container_name: desafio-votacao-db
+
+    ports:
+      # HOST:CONTAINER
+      - "5432:5432"
+
+    environment:
+      POSTGRES_DB: votacaodb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d votacaodb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  pgdata:

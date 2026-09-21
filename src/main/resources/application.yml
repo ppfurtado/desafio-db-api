@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: desafio-votacao
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/votacaodb}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:admin}
+    driver-class-name: org.postgresql.Driver
+
+server:
+  port: ${PORT:${SERVER_PORT:8089}}
