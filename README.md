@@ -144,8 +144,8 @@ O aplicativo envia uma requisição POST para a url informada e com o body defin
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Linguagem**: Java 17
-- **Framework**: Spring Boot 3.3.3
+- **Linguagem**: Java 21
+- **Framework**: Spring Boot 3.3.4
 - **Persistência**: Spring Data JPA / Hibernate
 - **Banco de Dados**: 
   - PostgreSQL (configuração principal via perfil `prod` e Docker Compose)
@@ -191,7 +191,7 @@ O aplicativo envia uma requisição POST para a url informada e com o body defin
 
 ### 1. Criar uma Pauta
 ```bash
-curl -X POST http://localhost:8080/v1/pautas \
+curl -X POST http://localhost:8089/v1/pautas \
   -H "Content-Type: application/json" \
   -d '{
     "titulo": "Aprovação do Balanço Anual 2024",
@@ -201,7 +201,7 @@ curl -X POST http://localhost:8080/v1/pautas \
 
 ### 2. Abrir uma Sessão de Votação (ex: 5 minutos)
 ```bash
-curl -X POST http://localhost:8080/v1/sessoes \
+curl -X POST http://localhost:8089/v1/sessoes \
   -H "Content-Type: application/json" \
   -d '{
     "pautaId": 1,
@@ -211,7 +211,7 @@ curl -X POST http://localhost:8080/v1/sessoes \
 
 ### 3. Registrar um Voto
 ```bash
-curl -X POST http://localhost:8080/v1/sessoes/1/votos \
+curl -X POST http://localhost:8089/v1/sessoes/1/votos \
   -H "Content-Type: application/json" \
   -d '{
     "associadoCpf": "12345678909",
@@ -221,7 +221,7 @@ curl -X POST http://localhost:8080/v1/sessoes/1/votos \
 
 ### 4. Consultar o Resultado da Votação
 ```bash
-curl -X GET http://localhost:8080/v1/pautas/1/resultado
+curl -X GET http://localhost:8089/v1/pautas/1/resultado
 ```
 
 **Exemplo de Resposta:**
@@ -258,19 +258,65 @@ mvn clean test
 ```bash
 mvn spring-boot:run
 ```
-A aplicação iniciará na porta `8080` conectada ao PostgreSQL local em `localhost:5432` (database `votacaodb`).
+A aplicação iniciará na porta `8089` conectada ao PostgreSQL local em `localhost:5432` (database `votacaodb`).
 
 ### Opção 2: Executando via Docker Compose (com PostgreSQL)
 ```bash
 docker-compose up --build -d
 ```
-A API estará acessível em `http://localhost:8080` conectada ao container PostgreSQL na porta `5432`.
+A API estará acessível em `http://localhost:8089` conectada ao container PostgreSQL na porta `5432`.
+
+---
+
+# 🚀 Testes de Carga e Estresse com k6
+
+Este diretório contém os scripts de testes de performance e estresse da API do **Desafio Votação**, utilizando a ferramenta [k6](https://k6.io/).
+
+---
+
+## 📂 Estrutura do Projeto
+
+Os scripts de teste devem ser mantidos dentro da pasta de testes do projeto para evitar que entrem no pacote `.jar` de produção:
+
+```text
+desafio-votacao/
+├── src/
+│   └── test/
+│       └── k6/
+│           ├── stress-test.js      # Script principal de estresse
+│           └── payload-example.json # Mocks e payloads utilizados (opcional)
+└── K6.md
+```
+
+## 🛠️ Pré-requisitos (Instalação)
+
+Windows (via Chocolatey ou Winget) ->  winget install k6 --source winget
+ ou
+choco install k6
+
+macOS (via Homebrew) -> brew install k6
+
+Linux (Debian/Ubuntu)  -> 
+gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] [https://dl.k6.io/deb](https://dl.k6.io/deb) stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+sudo apt-get update
+sudo apt-get install k6
+
+# 🧪 Como Executar os Testes
+
+### 🚀 Executar Teste de Estresse do k6
+
+Para rodar o script de estresse a partir do diretório raiz do projeto, execute:
+
+```bash
+k6 run src/test/k6/teste_estresse.js
+```
 
 ---
 
 ## 📑 Documentação Swagger & OpenAPI
 
 Após iniciar a aplicação, acesse a documentação interativa:
-- **Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-- **OpenAPI JSON**: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
-- **Spring Actuator Health**: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
+- **Swagger UI**: [http://localhost:8089/swagger-ui.html](http://localhost:8089/swagger-ui.html)
+- **OpenAPI JSON**: [http://localhost:8089/v3/api-docs](http://localhost:8089/v3/api-docs)
+- **Spring Actuator Health**: [http://localhost:8089/actuator/health](http://localhost:8089/actuator/health)
