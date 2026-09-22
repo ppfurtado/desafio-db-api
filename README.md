@@ -191,7 +191,7 @@ O aplicativo envia uma requisição POST para a url informada e com o body defin
 
 ### 1. Criar uma Pauta
 ```bash
-curl -X POST http://localhost:8089/v1/pautas \
+curl -X POST https://desafio-db-api.onrender.com/v1/pautas \
   -H "Content-Type: application/json" \
   -d '{
     "titulo": "Aprovação do Balanço Anual 2024",
@@ -201,7 +201,7 @@ curl -X POST http://localhost:8089/v1/pautas \
 
 ### 2. Abrir uma Sessão de Votação (ex: 5 minutos)
 ```bash
-curl -X POST http://localhost:8089/v1/sessoes \
+curl -X POST https://desafio-db-api.onrender.com/v1/sessoes \
   -H "Content-Type: application/json" \
   -d '{
     "pautaId": 1,
@@ -211,7 +211,7 @@ curl -X POST http://localhost:8089/v1/sessoes \
 
 ### 3. Registrar um Voto
 ```bash
-curl -X POST http://localhost:8089/v1/sessoes/1/votos \
+curl -X POST https://desafio-db-api.onrender.com/v1/sessoes/1/votos \
   -H "Content-Type: application/json" \
   -d '{
     "associadoCpf": "12345678909",
@@ -221,7 +221,7 @@ curl -X POST http://localhost:8089/v1/sessoes/1/votos \
 
 ### 4. Consultar o Resultado da Votação
 ```bash
-curl -X GET http://localhost:8089/v1/pautas/1/resultado
+curl -X GET https://desafio-db-api.onrender.com/v1/pautas/1/resultado
 ```
 
 **Exemplo de Resposta:**
@@ -264,7 +264,7 @@ A aplicação iniciará na porta `8089` conectada ao PostgreSQL local em `localh
 ```bash
 docker-compose up --build -d
 ```
-A API estará acessível em `http://localhost:8089` conectada ao container PostgreSQL na porta `5432`.
+A API estará acessível em `https://desafio-db-api.onrender.com` conectada ao container PostgreSQL na porta `5432`.
 
 ---
 
@@ -317,6 +317,6 @@ k6 run src/test/k6/teste_estresse.js
 ## 📑 Documentação Swagger & OpenAPI
 
 Após iniciar a aplicação, acesse a documentação interativa:
-- **Swagger UI**: [http://localhost:8089/swagger-ui.html](http://localhost:8089/swagger-ui.html)
-- **OpenAPI JSON**: [http://localhost:8089/v3/api-docs](http://localhost:8089/v3/api-docs)
-- **Spring Actuator Health**: [http://localhost:8089/actuator/health](http://localhost:8089/actuator/health)
+- **Swagger UI**: [https://desafio-db-api.onrender.com/swagger-ui.html](https://desafio-db-api.onrender.com/swagger-ui.html)
+- **OpenAPI JSON**: [https://desafio-db-api.onrender.com/v3/api-docs](https://desafio-db-api.onrender.com/v3/api-docs)
+- **Spring Actuator Health**: [https://desafio-db-api.onrender.com/actuator/health](https://desafio-db-api.onrender.com/actuator/health)

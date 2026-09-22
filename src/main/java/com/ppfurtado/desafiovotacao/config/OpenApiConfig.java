@@ -14,13 +14,10 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Desafio Votação - API Cooperativa")
+                        .title("Desafio Votação - API REST")
                         .version("v1")
                         .description("""
                                 API REST para gerenciamento de pautas, abertura de sessões e recepção de votos em assembleias cooperativas.
-
-                                ### Versionamento da API (Bônus 3):
-                                A estratégia adotada é o **URI Versioning** (prefixo `/v1/`), garantindo previsibilidade, rastreabilidade e compatibilidade com clientes legados e mobile.
                                 """)
                         .contact(new Contact()
                                 .name("Equipe Desafio Votação")
