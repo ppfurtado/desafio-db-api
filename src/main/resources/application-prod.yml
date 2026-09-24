@@ -29,20 +29,22 @@ spring:
         format_sql: false
         generate_statistics: false
 
+  ssl:
+    bundle:
+      pem:
+        aiven:
+          keystore:
+            certificate: file:/etc/secrets/service.cert
+            private-key: file:/etc/secrets/service.key
+          truststore:
+            certificate: file:/etc/secrets/ca.pem
+
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
-
     security:
-      protocol: ${KAFKA_SECURITY_PROTOCOL:SSL}
-
+      protocol: SSL
     ssl:
-      key-store-location: file:${KAFKA_KEYSTORE_LOCATION:/etc/secrets/client.keystore.p12}
-      key-store-password: ${KAFKA_KEYSTORE_PASSWORD}
-      key-store-type: ${KAFKA_KEYSTORE_TYPE:PKCS12}
-
-      trust-store-location: file:${KAFKA_TRUSTSTORE_LOCATION:/etc/secrets/client.truststore.jks}
-      trust-store-password: ${KAFKA_TRUSTSTORE_PASSWORD}
-      trust-store-type: ${KAFKA_TRUSTSTORE_TYPE:PKCS12}
+      bundle: aiven
 
     producer:
       acks: 1
