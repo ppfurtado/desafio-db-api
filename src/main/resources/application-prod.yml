@@ -21,7 +21,6 @@ spring:
 
   jpa:
     open-in-view: false
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
     show-sql: false
@@ -37,11 +36,11 @@ spring:
       protocol: ${KAFKA_SECURITY_PROTOCOL:SSL}
 
     ssl:
-      key-store-location: file:${KAFKA_KEYSTORE_LOCATION:/etc/secrets/client.keystore.p12}
+      key-store-location: ${KAFKA_KEYSTORE_LOCATION:/etc/secrets/client.keystore.p12}
       key-store-password: ${KAFKA_KEYSTORE_PASSWORD}
       key-store-type: ${KAFKA_KEYSTORE_TYPE:PKCS12}
 
-      trust-store-location: file:${KAFKA_TRUSTSTORE_LOCATION:/etc/secrets/client.truststore.jks}
+      trust-store-location: ${KAFKA_TRUSTSTORE_LOCATION:/etc/secrets/client.truststore.jks}
       trust-store-password: ${KAFKA_TRUSTSTORE_PASSWORD}
       trust-store-type: ${KAFKA_TRUSTSTORE_TYPE:PKCS12}
 
