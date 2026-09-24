@@ -37,12 +37,12 @@ spring:
       protocol: ${KAFKA_SECURITY_PROTOCOL:SSL}
 
     ssl:
-      key-store-location: ${KAFKA_KEYSTORE_LOCATION:classpath:client-certs/client.keystore.p12}
-      key-store-password: ${KAFKA_KEYSTORE_PASSWORD:}
+      key-store-location: file:${KAFKA_KEYSTORE_LOCATION:/etc/secrets/client.keystore.p12}
+      key-store-password: ${KAFKA_KEYSTORE_PASSWORD}
       key-store-type: ${KAFKA_KEYSTORE_TYPE:PKCS12}
 
-      trust-store-location: ${KAFKA_TRUSTSTORE_LOCATION:classpath:client-certs/client.truststore.jks}
-      trust-store-password: ${KAFKA_TRUSTSTORE_PASSWORD:}
+      trust-store-location: file:${KAFKA_TRUSTSTORE_LOCATION:/etc/secrets/client.truststore.jks}
+      trust-store-password: ${KAFKA_TRUSTSTORE_PASSWORD}
       trust-store-type: ${KAFKA_TRUSTSTORE_TYPE:PKCS12}
 
     producer:
@@ -59,11 +59,15 @@ spring:
     consumer:
       group-id: desafio-votacao-group
       auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: "com.ppfurtado.desafiovotacao.*"
 
 server:
-  port: ${SERVER_PORT:8089}
+  port: ${SERVER_PORT:${PORT:8080}}
   tomcat:
     threads:
       max: 500
