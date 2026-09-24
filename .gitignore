@@ -31,3 +31,18 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Certificados & Arquivos de Segurança (Kafka / Aiven) ###
+*.p12
+*.jks
+*.crt
+*.key
+*.pem
+src/main/resources/client-certs/
+
+### Variáveis de Ambiente & Arquivos do OS ###
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
