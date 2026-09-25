@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -52,7 +53,7 @@ public class PautaController {
 
     @GetMapping
     @Operation(summary = "Listar pautas cadastradas", description = "Lista todas as pautas com suporte a paginação.")
-    public ResponseEntity<Page<PautaResponse>> listar(@PageableDefault(size = 20, sort = "id") Pageable pageable) {
+    public ResponseEntity<Page<PautaResponse>> listar(@ParameterObject @PageableDefault(size = 20, sort = "id") Pageable pageable) {
         Page<PautaResponse> response = pautaService.listar(pageable).map(PautaResponse::fromEntity);
         return ResponseEntity.ok(response);
     }

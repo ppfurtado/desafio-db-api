@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +69,7 @@ public class SessaoVotacaoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de sessões retornada")
     })
-    public ResponseEntity<Page<SessaoVotacaoResponse>> listarTodas(@ModelAttribute SessaoVotacaoFilter filter, @PageableDefault(size = 20) Pageable pageable) {
+    public ResponseEntity<Page<SessaoVotacaoResponse>> listarTodas(@ParameterObject @ModelAttribute SessaoVotacaoFilter filter, @ParameterObject @PageableDefault(size = 20) Pageable pageable) {
         Page<SessaoVotacao> sessoes = sessaoVotacaoService.listarTodas(filter, pageable);
         Page<SessaoVotacaoResponse> response = sessoes.map(SessaoVotacaoResponse::fromEntity);
         return ResponseEntity.ok(response);
